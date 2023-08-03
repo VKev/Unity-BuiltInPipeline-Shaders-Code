@@ -1,3 +1,2 @@
-# ShaderProj
 Shader project
 
