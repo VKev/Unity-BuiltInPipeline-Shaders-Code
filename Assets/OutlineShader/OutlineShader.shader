@@ -73,9 +73,6 @@ Shader "Unlit/OutlineShader"
                 float edgeDepth = sqrt(pow(depthFiniteDifference0, 2) + pow(depthFiniteDifference1, 2)) * 100;
                 float depthThreshold = 1.5 * depth0;
                 edgeDepth = edgeDepth > depthThreshold ? 1 : 0;
-                float3 V= _WorldSpaceCameraPos - i.wPos;
-                float depth = 1- saturate( length(V)/_CameraFarPlaneDistance);
-                tex *= depth;
 
                 return float4(edgeDepth.xxx,0);
             }
