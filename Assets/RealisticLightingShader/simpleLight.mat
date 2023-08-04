@@ -49,14 +49,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Gloss: 0.381
-    - _HeightIntensity: 0.18
+    - _Animation: 0.033
+    - _Gloss: 0.589
+    - _HeightIntensity: 0.187
     - _Intensity: 1.05
     - _MaxBright: 1
     - _MaxDark: 0
     - _NormalIntensity: 1
-    - _ReflectionIntensity: 1
-    - _SpecularIBLIntensity: 0.267
+    - _ReflectionIntensity: 1.13
+    - _SpecularIBLIntensity: 0.293
     m_Colors:
     - _AmbientLight: {r: 1, g: 1, b: 1, a: 0}
     - _surfaceColor: {r: 0, g: 0, b: 0, a: 1}

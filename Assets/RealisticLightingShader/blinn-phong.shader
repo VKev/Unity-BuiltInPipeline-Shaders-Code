@@ -12,7 +12,7 @@ Shader "Unlit/blinn-phong"
         _SpecularIBLIntensity("SpecularIBL Intensity",Range(0,1))=1
         _Gloss("Glossiness", Range(0,1))= 1
         _ReflectionIntensity("Reflection Intensity",Range(0,5))=1
-        
+        _Animation("Animation speed", Range(-0.5,0.5)) = 0
         
     }
     SubShader
