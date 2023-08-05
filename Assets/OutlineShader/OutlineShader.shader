@@ -6,7 +6,7 @@ Shader "Unlit/OutlineShader"
         _Scale ("Scale", float) = 1
         _OutlineColor("Outline Color", COLOR) = (0,0,0,0)
         _OutlineThreshold("Outline Threshold",float)= 1.5
-        _NormalThreshold("Normal Threshold",float)= 0.3
+        _NormalThreshold("Normal Threshold",float)= 0.5
     }
     SubShader
     {
