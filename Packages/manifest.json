@@ -4,6 +4,7 @@
     "com.unity.feature.development": "1.0.2",
     "com.unity.postprocessing": "3.3.0",
     "com.unity.render-pipelines.universal": "16.0.3",
+    "com.unity.scriptablebuildpipeline": "1.21.7",
     "com.unity.timeline": "1.8.4",
     "com.unity.ugui": "2.0.0",
     "com.unity.visualscripting": "1.8.0",
