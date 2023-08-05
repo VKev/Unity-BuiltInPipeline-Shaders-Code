@@ -49,7 +49,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Animation: 0.033
+    - _Animation: 0
     - _Gloss: 0.589
     - _HeightIntensity: 0.187
     - _Intensity: 1.05

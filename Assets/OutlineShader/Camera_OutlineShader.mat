@@ -48,10 +48,10 @@ Material:
     - _CameraDepthRange: 10
     - _CameraFarPlaneDistance: 50
     - _DepthThreshold: 1.5
-    - _NormalThreshold: 0.5
+    - _NormalThreshold: 1
     - _OutlineThreshold: 1.5
     - _OutlineWidth: 1
-    - _Scale: 1
+    - _Scale: 1.8
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 1, g: 0.3622641, b: 0.3622641, a: 1}
