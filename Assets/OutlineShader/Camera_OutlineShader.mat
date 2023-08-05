@@ -48,7 +48,7 @@ Material:
     - _CameraDepthRange: 10
     - _CameraFarPlaneDistance: 50
     - _DepthThreshold: 1.5
-    - _NormalThreshold: 1.3
+    - _NormalThreshold: 0.5
     - _OutlineThreshold: 1.5
     - _OutlineWidth: 1
     - _Scale: 1
