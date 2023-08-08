@@ -6,7 +6,7 @@ Shader "Unlit/OutlineShader"
         _Scale ("Scale", float) = 1
         _OutlineColor("Outline Color", COLOR) = (0,0,0,0)
         _NormalThreshold("Normal Threshold", Range(0,1))= 1
-        _DepthThreshold("Depth Threshold",float)= 0.04
+        _DepthThreshold("Depth Threshold",float)= 0.05
 
     }
     SubShader
@@ -69,6 +69,32 @@ Shader "Unlit/OutlineShader"
                 float halfScaleFloor = floor(_Scale * 0.5);
                 float halfScaleCeil = ceil(_Scale * 0.5);
                  
+
+
+                 //Fresnel camera Texture:
+                float fresnel;
+
+                if(depth >0){
+                    //convert screenspace position to world position base on depth
+                    float3 worldPos = ComputeWorldSpacePosition(screenSpaceUV, depthTex, _MatrixHClipToWorld) *float3(1,-1,1) ;
+
+                    //convert view space normal of caemra to world space normal
+                    float3 screenSpaceNormal =  DecodeViewNormalStereo(tex2D(_CameraDepthNormalsTexture, screenSpaceUV)) ;
+                    float3 worldSpaceNormal = mul(unity_WorldToCamera,screenSpaceNormal)* float3(1,1,-1);
+
+                    //Calculate fresnel V*N
+                    float3 viewDir = normalize(_WorldSpaceCameraPos - worldPos);
+                    fresnel =saturate( dot(viewDir,worldSpaceNormal));
+
+                }else{
+                    fresnel =0;
+                }
+                
+                float normalThreshold = 1 + fresnel*(1-_NormalThreshold);
+                float depthThreshold = _DepthThreshold*( 1 + fresnel) * depth ;
+
+
+
                 //depth shader
                 //get neighbor pixel uv
                 float2 bottomLeftScreenUV = screenSpaceUV - float2(_MainTex_TexelSize.x, _MainTex_TexelSize.y) * halfScaleFloor;
@@ -87,35 +113,17 @@ Shader "Unlit/OutlineShader"
                 float depthFiniteDifference0 = depth1 - depth0;
                 float depthFiniteDifference1 = depth3 - depth2;
                 float edgeDepth = sqrt(pow(depthFiniteDifference0, 2) + pow(depthFiniteDifference1, 2)) * 100;
-                
-
-                //Fresnel camera Texture:
-                float fresnel;
-                float3 screenSpaceNormal =  DecodeViewNormalStereo(tex2D(_CameraDepthNormalsTexture, screenSpaceUV)) ;
-
-                if(depth >0){
-                    //convert screenspace position to world position base on depth
-                    float3 worldPos = ComputeWorldSpacePosition(screenSpaceUV, depthTex, _MatrixHClipToWorld) *float3(1,-1,1) ;
-
-                    //convert view space normal of caemra to world space normal
-                    float3 worldSpaceNormal = mul(unity_WorldToCamera,screenSpaceNormal)* float3(1,1,-1);
-
-                    
-                    float3 viewDir = normalize(_WorldSpaceCameraPos - worldPos);
-                    fresnel =saturate( dot(viewDir,worldSpaceNormal));
-                }else{
-                    fresnel =0;
-                }
-                
-                float normalThreshold = 1 + fresnel*(1-_NormalThreshold);
-                float depthThreshold = _DepthThreshold*( 1 + fresnel) * depth ;
-
-
-
+               
                 //set depth value in only 1 and 0
- 
                 edgeDepth = edgeDepth > depthThreshold ? 1 : 0;
+                
 
+
+
+                float edge;
+
+                if(depth>0){
+                
                 //get neighbor pixel normal value
                 float3 screenSpaceNormal0 = DecodeViewNormalStereo(tex2D(_CameraDepthNormalsTexture, bottomLeftScreenUV));
                 float3 screenSpaceNormal1 = DecodeViewNormalStereo(tex2D(_CameraDepthNormalsTexture, topRightScreenUV));
@@ -133,9 +141,13 @@ Shader "Unlit/OutlineShader"
                 
                 
                 //merge btw edge normal and edge depth
-                float edge = max(edgeDepth, edgeNormal);
+                edge = max(edgeDepth, edgeNormal);
 
                 //merge camera scene texture and colorOutline with camera outline texture
+                }else{
+                    edge = edgeDepth;
+                }
+                
                 float3 col = lerp(mainTex,_OutlineColor.rgb,edge.xxx);
 
                 
