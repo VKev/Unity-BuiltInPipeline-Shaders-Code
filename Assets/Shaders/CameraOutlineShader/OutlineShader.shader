@@ -27,7 +27,6 @@ Shader "Unlit/OutlineShader"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                float3 normal: NORMAL;
             };
 
             struct v2f
@@ -35,8 +34,6 @@ Shader "Unlit/OutlineShader"
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 float4 screenSpace: TEXCOORD1;
-                float3 normal: TEXCOORD2;
-                float3 wPos:TEXCOORD3;
             };
                 
             sampler2D _MainTex;
@@ -55,8 +52,6 @@ Shader "Unlit/OutlineShader"
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.screenSpace = ComputeScreenPos(o.vertex);
-                o.normal = UnityObjectToWorldNormal(v.normal);
-                o.wPos = mul(unity_ObjectToWorld,v.vertex);
                 return o;
             }
 
