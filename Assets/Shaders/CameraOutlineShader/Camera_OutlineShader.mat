@@ -47,11 +47,16 @@ Material:
     m_Floats:
     - _CameraDepthRange: 10
     - _CameraFarPlaneDistance: 50
-    - _DepthThreshold: 1.5
+    - _DepthNormalThreshold: 0.397
+    - _DepthNormalThresholdScale: 3.48
+    - _DepthScale: 1
+    - _DepthThreshold: 0.05
+    - _NormalDepthScale: 0.91
+    - _NormalScale: 1
     - _NormalThreshold: 1
     - _OutlineThreshold: 0.08
     - _OutlineWidth: 1
-    - _Scale: 2
+    - _Scale: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 1, g: 0.3622641, b: 0.3622641, a: 1}

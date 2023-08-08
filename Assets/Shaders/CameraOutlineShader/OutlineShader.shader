@@ -5,8 +5,9 @@ Shader "Unlit/OutlineShader"
         _MainTex("Texture",2D) =  "White"{}
         _Scale ("Scale", float) = 1
         _OutlineColor("Outline Color", COLOR) = (0,0,0,0)
-        _OutlineThreshold("Outline Threshold",float)= 1.5
-        _NormalThreshold("Normal Threshold",float)= 1
+        _NormalThreshold("Normal Threshold", Range(0,1))= 1
+        _DepthThreshold("Depth Threshold",float)= 0.04
+
     }
     SubShader
     {
@@ -45,10 +46,9 @@ Shader "Unlit/OutlineShader"
             sampler2D _CameraDepthTexture,_CameraDepthNormalsTexture;
 
             float4 _OutlineColor;
-            float _Scale,_OutlineThreshold,_NormalThreshold;
+            float _Scale,_NormalThreshold,_DepthThreshold;
 
             float4x4 _MatrixHClipToWorld;
-
             v2f Vert (appdata v)
             {
                 v2f o;
@@ -57,7 +57,6 @@ Shader "Unlit/OutlineShader"
                 o.screenSpace = ComputeScreenPos(o.vertex);
                 o.normal = UnityObjectToWorldNormal(v.normal);
                 o.wPos = mul(unity_ObjectToWorld,v.vertex);
-                
                 return o;
             }
 
@@ -69,7 +68,7 @@ Shader "Unlit/OutlineShader"
                 float depth = 1- Linear01Depth(depthTex);
                 float halfScaleFloor = floor(_Scale * 0.5);
                 float halfScaleCeil = ceil(_Scale * 0.5);
-
+                 
                 //depth shader
                 //get neighbor pixel uv
                 float2 bottomLeftScreenUV = screenSpaceUV - float2(_MainTex_TexelSize.x, _MainTex_TexelSize.y) * halfScaleFloor;
@@ -89,8 +88,32 @@ Shader "Unlit/OutlineShader"
                 float depthFiniteDifference1 = depth3 - depth2;
                 float edgeDepth = sqrt(pow(depthFiniteDifference0, 2) + pow(depthFiniteDifference1, 2)) * 100;
                 
+
+                //Fresnel camera Texture:
+                float fresnel;
+                float3 screenSpaceNormal =  DecodeViewNormalStereo(tex2D(_CameraDepthNormalsTexture, screenSpaceUV)) ;
+
+                if(depth >0){
+                    //convert screenspace position to world position base on depth
+                    float3 worldPos = ComputeWorldSpacePosition(screenSpaceUV, depthTex, _MatrixHClipToWorld) *float3(1,-1,1) ;
+
+                    //convert view space normal of caemra to world space normal
+                    float3 worldSpaceNormal = mul(unity_WorldToCamera,screenSpaceNormal)* float3(1,1,-1);
+
+                    
+                    float3 viewDir = normalize(_WorldSpaceCameraPos - worldPos);
+                    fresnel =saturate( dot(viewDir,worldSpaceNormal));
+                }else{
+                    fresnel =0;
+                }
+                
+                float normalThreshold = 1 + fresnel*(1-_NormalThreshold);
+                float depthThreshold = _DepthThreshold*( 1 + fresnel) * depth ;
+
+
+
                 //set depth value in only 1 and 0
-                float depthThreshold = _OutlineThreshold * depth0;
+ 
                 edgeDepth = edgeDepth > depthThreshold ? 1 : 0;
 
                 //get neighbor pixel normal value
@@ -106,7 +129,7 @@ Shader "Unlit/OutlineShader"
                
 
                 //set edge normal to onlyy 1 and 0
-                edgeNormal = edgeNormal > _NormalThreshold ? 1 : 0;
+                edgeNormal = edgeNormal > normalThreshold ? 1 : 0;
                 
                 
                 //merge btw edge normal and edge depth
@@ -117,24 +140,9 @@ Shader "Unlit/OutlineShader"
 
                 
 
-                //Fresnel camera Texture:
-                float fresnel;
-                if(depth >0){
-                    //convert screenspace position to world position base on depth
-                    float3 worldPos = ComputeWorldSpacePosition(screenSpaceUV, depthTex, _MatrixHClipToWorld) *float3(1,-1,1) ;
-
-                    //convert view space normal of caemra to world space normal
-                    float3 viewSpaceNormal =  DecodeViewNormalStereo(tex2D(_CameraDepthNormalsTexture, screenSpaceUV)) ;
-                    float3 worldSpaceNormal = mul(unity_WorldToCamera,viewSpaceNormal)* float3(1,1,-1);
-
-                    
-                    float3 viewDir = normalize(_WorldSpaceCameraPos - worldPos);
-                    fresnel = dot(viewDir,worldSpaceNormal);
-                }else{
-                    fresnel = 0;
-                }
                 
-                return float4(col, 1);
+
+                return float4(col, 1);  
                 
             }
             ENDCG

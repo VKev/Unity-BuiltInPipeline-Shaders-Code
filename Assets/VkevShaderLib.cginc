@@ -8,7 +8,7 @@
             #define TAU 6.28318531
             #define PI 3.1415926535
 
-            float InverseLerp(float4 A, float4 B, float4 T, out float4 Out){
+            float InverseLerp(float4 A, float4 B, float4 T){
 {
                 return (T - A)/(B - A);
             }
