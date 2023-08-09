@@ -5,7 +5,7 @@ Shader "Unlit/OutlineShader"
         _MainTex("Texture",2D) =  "White"{}
         _Scale ("Scale", float) = 1
         _OutlineColor("Outline Color", COLOR) = (0,0,0,0)
-        _NormalThreshold("Normal Threshold", Range(0,1))= 1
+        _NormalThreshold("Normal Threshold", Range(0,1))= 0.4
         _DepthThreshold("Depth Threshold",float)= 0.05
 
     }
@@ -26,7 +26,7 @@ Shader "Unlit/OutlineShader"
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                float2 uv : TEXCOORD0;  
             };
 
             struct v2f
@@ -85,7 +85,7 @@ Shader "Unlit/OutlineShader"
                     fresnel =0;
                 }
                 
-                float normalThreshold = 1 + fresnel*(1-_NormalThreshold);
+                float normalThreshold = (1 + fresnel)*(1-_NormalThreshold);
                 float depthThreshold = _DepthThreshold*( 1 + fresnel) * depth ;
 
 
