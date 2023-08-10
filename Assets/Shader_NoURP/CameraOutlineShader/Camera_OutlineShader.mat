@@ -56,9 +56,9 @@ Material:
     - _NormalThreshold: 0.4
     - _OutlineThreshold: 0.08
     - _OutlineWidth: 1
-    - _Scale: 2
+    - _Scale: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 1}
+    - _OutlineColor: {r: 0.3679245, g: 0.20953721, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
