@@ -8,6 +8,7 @@ public class CameraPP : MonoBehaviour
 {
     public Material OutlineMat;
     public Camera cam;
+
     Vector3 cameraAwakePos;
     private void Awake()
     {
@@ -16,6 +17,7 @@ public class CameraPP : MonoBehaviour
     }
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
+        
         Matrix4x4 matrixCameraToWorld = cam.cameraToWorldMatrix;
         Matrix4x4 matrixProjectionInverse = GL.GetGPUProjectionMatrix(cam.projectionMatrix, false).inverse;
         Matrix4x4 matrixHClipToWorld = matrixCameraToWorld * matrixProjectionInverse;

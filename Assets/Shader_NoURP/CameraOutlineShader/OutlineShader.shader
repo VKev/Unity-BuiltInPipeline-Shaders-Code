@@ -4,7 +4,7 @@ Shader "Unlit/OutlineShader"
     {   
         _MainTex("Texture",2D) =  "White"{}
         _Scale ("Scale", float) = 1
-        _OutlineColor("Outline Color", COLOR) = (0,0,0,0)
+        _OutlineColor("Outline Color", COLOR) = (0.5625,0.5625,0.5625,1)
         _NormalThreshold("Normal Threshold", Range(0,1))= 0.4
         _DepthThreshold("Depth Threshold",float)= 0.05
 
@@ -54,11 +54,12 @@ Shader "Unlit/OutlineShader"
                 o.screenSpace = ComputeScreenPos(o.vertex);
                 return o;
             }
-
+            
             float4 frag (v2f i) : SV_Target
             {
                 float2 screenSpaceUV = i.screenSpace.xy/i.screenSpace.w;// screenSpace UV
                 float3 mainTex = tex2D(_MainTex,screenSpaceUV);
+                
                 float depthTex = tex2D(_CameraDepthTexture,screenSpaceUV);
                 float depth = 1- Linear01Depth(depthTex);
                 float halfScaleFloor = floor(_Scale * 0.5);
@@ -68,7 +69,7 @@ Shader "Unlit/OutlineShader"
 
                  //Fresnel camera Texture:
                 float fresnel;
-
+                
                 if(depth >0){
                     //convert screenspace position to world position base on depth
                     float3 worldPos = ComputeWorldSpacePosition(screenSpaceUV, depthTex, _MatrixHClipToWorld) *float3(1,-1,1) ;
