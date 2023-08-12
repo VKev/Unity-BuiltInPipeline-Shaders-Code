@@ -14,7 +14,7 @@
                 float3 normal:TEXCOORD1;
                 float3 wPos:TEXCOORD2;
                 #ifdef IS_IN_BASE_PASS
-                    
+                   
                 #else
                     LIGHTING_COORDS(3,4)
                 #endif
@@ -27,7 +27,6 @@
             float _Gloss; 
             float _RimSize,_RimThreshold,_RimBlur;
             float _DeffuseBlur,_SpecularBlur;
-            float _ShadowIntensity,_ShadowReceiverInten;
             v2f vert (appdata v)
             {
                 v2f o;
@@ -58,10 +57,11 @@
                 deffuseLight = smoothstep(0,_DeffuseBlur, deffuseLight );
                 
                 #ifdef IS_IN_BASE_PASS
-
+                    
                 #else
                     attenuation = LIGHT_ATTENUATION(i);
                 #endif
+                
                 
 
                 float3 specularLight = SpecularLight(i.normal,i.wPos,_Gloss)*_Gloss;
@@ -70,11 +70,11 @@
 
 
                 float3 mainTex = tex2D(_MainTex, i.uv).rgb;
-                float3 CelShading = _Color*attenuation*(
-                                    deffuseLight*mainTex 
+                float3 CelShading = _Color*(
+                                    deffuseLight*mainTex*attenuation
                                     + _AmbientLight
-                                    + specularLight*_Gloss 
-                                    + rim                    ); 
+                                    + specularLight*_Gloss*attenuation 
+                                    + rim*attenuation                   ); 
 
                return float4(CelShading,1);
 

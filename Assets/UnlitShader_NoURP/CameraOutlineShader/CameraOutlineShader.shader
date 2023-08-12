@@ -1,4 +1,4 @@
-Shader "Unlit/OutlineShader"
+Shader "MyCustomShader/CameraOutlineShader"
 {
     Properties
     {   
