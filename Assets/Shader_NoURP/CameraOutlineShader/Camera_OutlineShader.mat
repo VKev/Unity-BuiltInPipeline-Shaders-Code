@@ -53,7 +53,7 @@ Material:
     - _DepthThreshold: 0.05
     - _NormalDepthScale: 0.91
     - _NormalScale: 1
-    - _NormalThreshold: 0.4
+    - _NormalThreshold: 0.44
     - _OutlineThreshold: 0.08
     - _OutlineWidth: 1
     - _Scale: 1

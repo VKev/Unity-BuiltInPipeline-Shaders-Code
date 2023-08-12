@@ -1,3 +1,5 @@
+
+            //unlit shader
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -11,16 +13,21 @@
                 float4 vertex : SV_POSITION;
                 float3 normal:TEXCOORD1;
                 float3 wPos:TEXCOORD2;
-                LIGHTING_COORDS(3,4)
+                #ifdef IS_IN_BASE_PASS
+                    
+                #else
+                    LIGHTING_COORDS(3,4)
+                #endif
             };
+            
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float4 _AmbientLight,_Color;
-            float _Gloss;
+            float _Gloss; 
             float _RimSize,_RimThreshold,_RimBlur;
             float _DeffuseBlur,_SpecularBlur;
-
+            float _ShadowIntensity,_ShadowReceiverInten;
             v2f vert (appdata v)
             {
                 v2f o;
@@ -28,15 +35,18 @@
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.wPos = mul( unity_ObjectToWorld,v.vertex);
                 o.normal = UnityObjectToWorldNormal(v.normal);
-                TRANSFER_VERTEX_TO_FRAGMENT(o);// transfer light data to frag shader
+                #ifdef IS_IN_BASE_PASS
+                     
+                #else
+                     TRANSFER_VERTEX_TO_FRAGMENT(o);// transfer light data to frag shader
+                #endif
                 return o;
             }
 
+
             float4 frag (v2f i) : SV_Target
             {
-                // sample the texture
-                float attenuation = LIGHT_ATTENUATION(i);
-
+                float attenuation = 1;
                 float3 N = normalize( i.normal);
                 float3 V= normalize(_WorldSpaceCameraPos - i.wPos);
                 float3 L = normalize(UnityWorldSpaceLightDir(i.wPos)); 
@@ -46,7 +56,13 @@
 
                 float3 deffuseLight =  DeffuseLight(i.normal,i.wPos);
                 deffuseLight = smoothstep(0,_DeffuseBlur, deffuseLight );
+                
+                #ifdef IS_IN_BASE_PASS
 
+                #else
+                    attenuation = LIGHT_ATTENUATION(i);
+                #endif
+                
 
                 float3 specularLight = SpecularLight(i.normal,i.wPos,_Gloss)*_Gloss;
                 specularLight = smoothstep(0.005,_SpecularBlur,specularLight);
@@ -60,5 +76,7 @@
                                     + specularLight*_Gloss 
                                     + rim                    ); 
 
-                return float4(CelShading,1);
+               return float4(CelShading,1);
+
+
             }

@@ -33,11 +33,13 @@ Material:
     - _Gloss: 0.79
     - _LightBlur: 0.0051
     - _RimBlur: 0.01
-    - _RimSize: 0.287
+    - _RimSize: 0.2
     - _RimThreshold: 2
+    - _ShadowIntensity: 1
+    - _ShadowReceiverInten: 0.79
     - _SpecularBlur: 0.01
     m_Colors:
-    - _AmbientLight: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 0}
-    - _Color: {r: 0.41509432, g: 0.41509432, b: 0.41509432, a: 1}
+    - _AmbientLight: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

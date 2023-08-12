@@ -29,7 +29,7 @@
             float3 DeffuseLight(float3 normal,float3 wPos){
                 float3 N = normalize( normal);
                 float3 L = normalize(UnityWorldSpaceLightDir(wPos)); // UnityWorldSpaceDir take wPos and return the vector from that pixel wpos to lightsrc
-                float lambert =  clamp(  dot (N,L),0,1);
+                float lambert =  saturate(  dot (N,L));
                 float3 deffuseLight = lambert*_LightColor0.xyz;
                 return deffuseLight;
             }
