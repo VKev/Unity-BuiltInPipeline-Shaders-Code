@@ -28,7 +28,9 @@ Shader "MyCustomShader/ToonShader"
             #pragma vertex vert
             #pragma fragment frag
             #define IS_IN_BASE_PASS
-            #include "Assets\VkevShaderLib.cginc" 
+            #include "Assets\VkevShaderLib.cginc"
+            
+            //this is for shadow and light calculate in ForwardBase
             #pragma multi_compile_fwdbase
 
 
@@ -43,6 +45,8 @@ Shader "MyCustomShader/ToonShader"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+
+            //this is for shadow and light calculate in ForwardAdd
             #pragma multi_compile_fwdadd_fullshadows
 
             //my library
