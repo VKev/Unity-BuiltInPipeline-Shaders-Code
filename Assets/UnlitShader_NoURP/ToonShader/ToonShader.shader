@@ -17,16 +17,19 @@ Shader "MyCustomShader/ToonShader"
         Tags { "RenderType"="Opaque" }
         LOD 100
 
+        //this toonshader only work for 1 DIRECTIONAL light in scene
         //base pass
         Pass
         {
-            Tags{"LightMode" = "ForwardBase"}
+            Tags{
+                "LightMode" = "ForwardBase"
+            }
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #define IS_IN_BASE_PASS
-            #pragma multi_compile_fwdbase nolightmap nodynlightmap novertexlight
             #include "Assets\VkevShaderLib.cginc" 
+            #pragma multi_compile_fwdbase
 
 
             #include "VertFrag.cginc"
@@ -51,10 +54,7 @@ Shader "MyCustomShader/ToonShader"
             
             
             ENDCG
-        }
-
-
-        
+        } 
         
     }
     FallBack "Diffuse"

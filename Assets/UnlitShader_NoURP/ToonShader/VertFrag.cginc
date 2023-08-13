@@ -14,12 +14,13 @@
                 float3 normal:TEXCOORD1;
                 float3 wPos:TEXCOORD2;
                 #ifdef IS_IN_BASE_PASS
-                   
+                    float4 _ShadowCoord : TEXCOORD3;
                 #else
                     LIGHTING_COORDS(3,4)
                 #endif
             };
             
+
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -35,7 +36,7 @@
                 o.wPos = mul( unity_ObjectToWorld,v.vertex);
                 o.normal = UnityObjectToWorldNormal(v.normal);
                 #ifdef IS_IN_BASE_PASS
-                     
+                     o._ShadowCoord = ShadowCoordCompute(o.vertex);//calulate shadowcoord manually, reference VkevShaderLib
                 #else
                      TRANSFER_VERTEX_TO_FRAGMENT(o);// transfer light data to frag shader
                 #endif
@@ -45,6 +46,7 @@
 
             float4 frag (v2f i) : SV_Target
             {
+
                 float attenuation = 1;
                 float3 N = normalize( i.normal);
                 float3 V= normalize(_WorldSpaceCameraPos - i.wPos);
@@ -57,9 +59,10 @@
                 deffuseLight = smoothstep(0,_DeffuseBlur, deffuseLight );
                 
                 #ifdef IS_IN_BASE_PASS
+                    attenuation = SHADOW_ATTENUATION(i);//get shadow attenuation for DIRECTIONAL light
                     
                 #else
-                    attenuation = LIGHT_ATTENUATION(i);
+                    attenuation = LIGHT_ATTENUATION(i);//get shadow attenuation for all light except DIRECTIONAL
                 #endif
                 
                 

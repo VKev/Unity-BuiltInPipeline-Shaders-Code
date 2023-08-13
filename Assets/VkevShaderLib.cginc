@@ -13,7 +13,11 @@
                 return (T - A)/(B - A);
             }
 }
-
+            float4 ShadowCoordCompute (float4 p)//p is world vertex ( UnityObjectToClipPos(v.vertex) )
+            {
+                float4 o = p * 0.5;
+                return float4(float2(o.x, o.y*_ProjectionParams.x) + o.w, p.zw);
+            }
             float2 dirToRectilinear(float3 dir){
                 float x = atan2(dir.z,dir.x)/TAU + 0.5;
                 float y = dir.y*0.5 +0.5;
