@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CameraOutline_Mat
+  m_Name: PP_Outline
   m_Shader: {fileID: 4800000, guid: 142a5080defb8244d969280cf13b9aa7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -53,12 +53,16 @@ Material:
     - _DepthThreshold: 0.05
     - _NormalDepthScale: 0.91
     - _NormalScale: 1
-    - _NormalThreshold: 0.44
+    - _NormalThreshold: 0.3
+    - _OutlineBlurColorIntensity: 0.19
+    - _OutlineBlurIntensity: 0.01
+    - _OutlineBlurSize: 2
+    - _OutlineBlurStandardDeviation: 0.98
     - _OutlineThreshold: 0.08
     - _OutlineWidth: 1
     - _Scale: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 0.3679245, g: 0.20953721, b: 0, a: 1}
+    - _OutlineColor: {r: 0.3773585, g: 0.11178354, b: 0.11178354, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

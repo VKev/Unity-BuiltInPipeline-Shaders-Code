@@ -1,28 +1,3 @@
-Shader "MyCustomShader/CameraOutlineShader"
-{
-    Properties
-    {   
-        _MainTex("Texture",2D) =  "White"{}
-        _Scale ("Scale", float) = 1
-        _OutlineColor("Outline Color", COLOR) = (0.5625,0.5625,0.5625,1)
-        _NormalThreshold("Normal Threshold", Range(0,1))= 0.4
-        _DepthThreshold("Depth Threshold",float)= 0.05
-
-    }
-    SubShader
-    {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
-
-        Pass
-        {
-
-            CGPROGRAM
-            #pragma vertex Vert
-            #pragma fragment frag
-            
-            #include "Assets\VkevShaderLib.cginc" 
-
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -45,6 +20,8 @@ Shader "MyCustomShader/CameraOutlineShader"
             float4 _OutlineColor;
             float _Scale,_NormalThreshold,_DepthThreshold;
 
+            
+
             float4x4 _MatrixHClipToWorld;
             v2f Vert (appdata v)
             {
@@ -62,9 +39,14 @@ Shader "MyCustomShader/CameraOutlineShader"
                 
                 float depthTex = tex2D(_CameraDepthTexture,screenSpaceUV);
                 float depth = 1- Linear01Depth(depthTex);
-                float halfScaleFloor = floor(_Scale * 0.5);
-                float halfScaleCeil = ceil(_Scale * 0.5);
-                 
+
+                //#ifdef IS_IN_BASE_PASS
+                    float halfScaleFloor = floor(_Scale * 0.5);
+                    float halfScaleCeil = ceil(_Scale * 0.5);
+                //#else
+                    //float halfScaleFloor = floor((_Scale+_OutlineBlurSize) * 0.5);
+                    //float halfScaleCeil = ceil((_Scale+_OutlineBlurSize) * 0.5);
+                //#endif
 
 
                  //Fresnel camera Texture:
@@ -144,17 +126,24 @@ Shader "MyCustomShader/CameraOutlineShader"
                     edge = edgeDepth;
                 }
                 
-                float3 col = lerp(mainTex,_OutlineColor.rgb,edge.xxx);
-
                 
-
-                
-
-                return float4(col, 1);  
+                //#ifdef IS_IN_BASE_PASS
+                    float3 col = lerp(mainTex,_OutlineColor.rgb,edge.xxx);
+                    return float4(col, 1);  
+                //#else
+                    //float sum =0;
+                    //float3 col;
+                    //float invAspect = _ScreenParams.y / _ScreenParams.x;
+                    //for(float index = 0; index < SAMPLES; index++){
+					    
+                    //    float2 uv = i.uv + float2((index/(SAMPLES-1) - 0.5) * _OutlineBlurIntensity, (index/(SAMPLES-1) - 0.5) * _OutlineBlurIntensity);
+                        
+                    //    col += tex2D(_MainTex, uv);
+				    //}
+                    //col = col;
+                    //col = lerp(0,col,edge.xxx);
+                    //col *= _OutlineColor*_OutlineBlurColorIntensity;
+                    //return float4(col, 1);  
+                //#endif
                 
             }
-            ENDCG
-        }
-
-    }
-}

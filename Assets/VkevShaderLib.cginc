@@ -12,6 +12,9 @@
 {
                 return (T - A)/(B - A);
             }
+
+}           float rgb2luma(float3 rgb){
+                return sqrt(dot(rgb, float3(0.299, 0.587, 0.114)));//get luminosity of pixel
 }
             float4 ShadowCoordCompute (float4 p)//p is world vertex ( UnityObjectToClipPos(v.vertex) ), this function same as ComputeScreenPos 
             {

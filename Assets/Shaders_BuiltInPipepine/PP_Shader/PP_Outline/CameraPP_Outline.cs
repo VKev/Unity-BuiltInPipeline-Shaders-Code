@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CameraPP : MonoBehaviour
+public class CameraPP_Outline : MonoBehaviour
 {
     public Material OutlineMat;
-    public Camera cam;
-
-    Vector3 cameraAwakePos;
+    private Camera cam;
     private void Awake()
     {
+        cam = GetComponent<Camera>();
         cam.depthTextureMode = DepthTextureMode.DepthNormals;
-        cameraAwakePos = transform.position;
     }
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        
+        float rcpWidth = 1.0f / Screen.width;
+        float rcpHeight = 1.0f / Screen.height;
+
         Matrix4x4 matrixCameraToWorld = cam.cameraToWorldMatrix;
         Matrix4x4 matrixProjectionInverse = GL.GetGPUProjectionMatrix(cam.projectionMatrix, false).inverse;
         Matrix4x4 matrixHClipToWorld = matrixCameraToWorld * matrixProjectionInverse;

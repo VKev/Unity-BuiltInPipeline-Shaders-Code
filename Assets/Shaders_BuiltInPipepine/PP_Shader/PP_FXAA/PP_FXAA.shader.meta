@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 3d417cf48fde7da46b5a79811115e87f
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 3590
+  packageName: FXAA Fast Approximate Anti-Aliasing
+  packageVersion: 1.4
+  assetPath: Assets/FXAA/Shaders/Fxaa3.shader
+  uploadId: 410798

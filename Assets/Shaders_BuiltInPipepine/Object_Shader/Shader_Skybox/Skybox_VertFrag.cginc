@@ -1,22 +1,3 @@
-Shader "Unlit/Skybox"
-{
-    Properties
-    {
-        _MainTex ("Texture", 2D) = "white" {}
-    }
-    SubShader
-    {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
-
-        Pass
-        {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-
-            #include "UnityCG.cginc"
-            #define TAU 6.28318531
             float2 dirToRectilinear(float3 dir){
                 float x = atan2(dir.z,dir.x)/TAU + 0.5;
                 float y = dir.y*0.5 +0.5;
@@ -52,7 +33,3 @@ Shader "Unlit/Skybox"
                 float4 col = tex2Dlod(_MainTex, float4(dirToRectilinear(i.viewDir),0,0));
                 return col;
             }
-            ENDCG
-        }
-    }
-}

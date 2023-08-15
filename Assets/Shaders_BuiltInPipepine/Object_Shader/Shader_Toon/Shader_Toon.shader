@@ -34,7 +34,7 @@ Shader "MyCustomShader/ToonShader"
             #pragma multi_compile_fwdbase
 
 
-            #include "VertFrag.cginc"
+            #include "Toon_VertFrag.cginc"
             ENDCG
         }
 
@@ -53,7 +53,7 @@ Shader "MyCustomShader/ToonShader"
             #include "Assets\VkevShaderLib.cginc" 
 
             //vert and frag shader func
-            #include "VertFrag.cginc"
+            #include "Toon_VertFrag.cginc"
             
             
             

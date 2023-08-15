@@ -33,7 +33,7 @@ Shader "MyCustomShader/Blinn-phong"
             #include "Assets\VkevShaderLib.cginc" 
 
             //vert and frag shader func
-            #include "VertFrag.cginc"
+            #include "Realistic_VertFrag.cginc"
 
 
             
@@ -53,7 +53,7 @@ Shader "MyCustomShader/Blinn-phong"
             #include "Assets\VkevShaderLib.cginc" 
 
             //vert and frag shader func
-            #include "VertFrag.cginc"
+            #include "Realistic_VertFrag.cginc"
             
             
             
