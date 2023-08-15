@@ -1,4 +1,4 @@
-Shader "MyCustomShader/CameraOutlineShader"
+Shader "MyCustomShader/PP_Outline"
 {
     Properties
     {   

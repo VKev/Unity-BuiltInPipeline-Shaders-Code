@@ -1,4 +1,4 @@
-Shader "Unlit/Skybox"
+Shader "MyCustomShader/SkyboxShader"
 {
     Properties
     {

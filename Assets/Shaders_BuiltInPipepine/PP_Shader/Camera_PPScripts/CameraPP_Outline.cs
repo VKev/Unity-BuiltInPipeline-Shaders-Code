@@ -12,6 +12,10 @@ public class CameraPP_Outline : MonoBehaviour
     {
         cam = GetComponent<Camera>();
         cam.depthTextureMode = DepthTextureMode.DepthNormals;
+        if(OutlineMat == null)
+        {
+            OutlineMat = new Material(Shader.Find("MyCustomShader/PP_Outline"));
+        }
     }
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
@@ -25,5 +29,5 @@ public class CameraPP_Outline : MonoBehaviour
         Shader.SetGlobalMatrix("_MatrixHClipToWorld", matrixHClipToWorld);
         Graphics.Blit(source, destination, OutlineMat);
     }
-    
+
 }

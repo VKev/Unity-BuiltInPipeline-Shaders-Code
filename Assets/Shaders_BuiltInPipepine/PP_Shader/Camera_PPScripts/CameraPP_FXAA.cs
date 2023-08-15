@@ -10,6 +10,10 @@ public class CameraPP_FXAA : MonoBehaviour
     private void Awake()
     {
         cam = GetComponent<Camera>();
+        if (FXAAMat == null)
+        {
+            FXAAMat = new Material(Shader.Find("MyCustomShader/PP_FXAA"));
+        }
     }
 
     public void OnRenderImage( RenderTexture source, RenderTexture destination )

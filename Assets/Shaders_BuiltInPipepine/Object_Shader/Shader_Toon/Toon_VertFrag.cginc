@@ -38,7 +38,7 @@
                 #ifdef IS_IN_BASE_PASS
                      o._ShadowCoord = ShadowCoordCompute(o.vertex);//calulate shadowcoord manually, reference VkevShaderLib
                 #else
-                     TRANSFER_VERTEX_TO_FRAGMENT(o);// transfer light data to frag shader
+                     TRANSFER_VERTEX_TO_FRAGMENT(o) ;// transfer light data to frag shader
                 #endif
                 return o;
             }

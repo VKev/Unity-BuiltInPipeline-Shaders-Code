@@ -1,4 +1,4 @@
-Shader "Hidden/FXAA3"
+Shader "MyCustomShader/PP_FXAA"
 {
 	Properties
 	{

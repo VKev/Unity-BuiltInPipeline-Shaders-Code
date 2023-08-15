@@ -1,4 +1,4 @@
-Shader "MyCustomShader/Blinn-phong"
+Shader "MyCustomShader/RealisticShader"
 {
     Properties
     {
