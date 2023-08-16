@@ -1,4 +1,4 @@
-Shader "Unlit/PP_FXAA_"
+Shader "MyCustom_BuiltIn_Shader/PP_FXAA_LagVersion"
 {
     Properties
     {

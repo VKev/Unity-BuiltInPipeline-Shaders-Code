@@ -1,4 +1,4 @@
-Shader "MyCustomShader/PP_Outline"
+Shader "MyCustom_BuiltIn_Shader/PP_Outline"
 {
     Properties
     {   

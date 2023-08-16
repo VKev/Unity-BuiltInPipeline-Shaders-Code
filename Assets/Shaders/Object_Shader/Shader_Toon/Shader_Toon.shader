@@ -1,4 +1,4 @@
-Shader "MyCustomShader/ToonShader"
+Shader "MyCustom_BuiltIn_Shader/ToonShader"
 {
     Properties
     {

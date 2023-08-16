@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,12 +19,16 @@ public class CameraMovement : MonoBehaviour
 
     private Vector2 rotateAngle;
 
-    private bool isCursorLock = false;
+    private bool isCursorLock = true;
 
     private void Awake()
     {
         inputSystem = new InputSystem();
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -73,14 +78,18 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Vector2 mouseDelta = lookAction.ReadValue<Vector2>();
-        rotateAngle.x += mouseDelta.x*Time.deltaTime*rotateSpeed;
-        rotateAngle.y += mouseDelta.y * Time.deltaTime * rotateSpeed;
+        if (isCursorLock)
+        {
+            Vector2 mouseDelta = lookAction.ReadValue<Vector2>();
+            rotateAngle.x += mouseDelta.x * Time.deltaTime * rotateSpeed;
+            rotateAngle.y += mouseDelta.y * Time.deltaTime * rotateSpeed;
 
-        transform.localRotation = Quaternion.Euler(-rotateAngle.y,rotateAngle.x,0);
-        Vector2 movDir = moveAction.ReadValue<Vector2>();
-        float flyDir = flyAction.ReadValue<float>();
-        rb.velocity = (transform.forward * movDir.y + transform.right * movDir.x + Vector3.up * flyDir) * moveSpeed * Time.fixedDeltaTime;
+            transform.localRotation = Quaternion.Euler(-rotateAngle.y, rotateAngle.x, 0);
+        }
+            Vector2 movDir = moveAction.ReadValue<Vector2>();
+            float flyDir = flyAction.ReadValue<float>();
+            rb.velocity = (transform.forward * movDir.y + transform.right * movDir.x + Vector3.up * flyDir) * moveSpeed * Time.fixedDeltaTime;
+        
     }
     private void FixedUpdate()
     {

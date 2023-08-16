@@ -1,4 +1,4 @@
-Shader "MyCustomShader/RealisticShader"
+Shader "MyCustom_BuiltIn_Shader/RealisticShader"
 {
     Properties
     {

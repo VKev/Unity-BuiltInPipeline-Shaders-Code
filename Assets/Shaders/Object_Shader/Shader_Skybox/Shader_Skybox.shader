@@ -1,4 +1,4 @@
-Shader "MyCustomShader/SkyboxShader"
+Shader "MyCustom_BuiltIn_Shader/SkyboxShader"
 {
     Properties
     {

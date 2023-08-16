@@ -76,3 +76,45 @@
                 return hpositionWS.xyz / hpositionWS.w;
             }
 
+            //return whether pixel is luma edge or not
+            bool isLumaEdge(float2 uv, float scale,sampler2D mainTex,float4 mainTexTexelSize, float EdgeThresholdMin, float EdgeThresholdMax){
+                float3 centerCol = tex2D(mainTex,uv);
+
+                //calcualte the luminosity of current pixel
+                float centerLuma = rgb2luma(centerCol);
+
+
+                float ScaleFloor = floor(scale);
+
+
+                //get neightbor UV coord
+                float2 bottomScreenUV = uv - float2(0, mainTexTexelSize.y)*ScaleFloor;
+                float2 topScreenUV =uv + float2(0, mainTexTexelSize.y)*ScaleFloor;  
+                float2 rightScreenUV = uv + float2(mainTexTexelSize.x ,0)*ScaleFloor;
+                float2 leftScreenUV = uv - float2(-mainTexTexelSize.x ,0)*ScaleFloor;
+
+                float2 bottomLeftScreenUV =  uv - float2(mainTexTexelSize.x, mainTexTexelSize.y)*ScaleFloor ;
+                float2 topRightScreenUV = uv + float2(mainTexTexelSize.x, mainTexTexelSize.y)*ScaleFloor ;  
+                float2 bottomRightScreenUV =  uv + float2(mainTexTexelSize.x , -mainTexTexelSize.y )*ScaleFloor;
+                float2 topLeftScreenUV =  uv + float2(-mainTexTexelSize.x , mainTexTexelSize.y )*ScaleFloor;
+
+                //calculate luma of neightbor pixel
+                float topLuma = rgb2luma(tex2D(mainTex,topScreenUV));
+                float bottomLuma = rgb2luma(tex2D(mainTex,bottomScreenUV));
+                float rightLuma = rgb2luma(tex2D(mainTex,rightScreenUV));
+                float leftLuma = rgb2luma(tex2D(mainTex,leftScreenUV));
+                    
+                float bottomTopLuma = bottomLuma + topLuma;
+                float leftRightLuma = leftLuma + rightLuma;
+
+                // Find the maximum and minimum luma around the current fragment
+                float lumaMin = min( centerLuma, min( min(bottomLuma,topLuma),  min(leftLuma,rightLuma) ) );
+                float lumaMax = max( centerLuma, max( max(bottomLuma,topLuma),  max(leftLuma,rightLuma) ) );
+
+                // Compute the difference btw min and max luma
+                float lumaRange = lumaMax - lumaMin;
+
+                //get only the luma of the edge pixel
+                bool islumaEdge = lumaRange < max(EdgeThresholdMin,lumaMax*EdgeThresholdMax)? 1 : 0;
+                return islumaEdge;
+            }

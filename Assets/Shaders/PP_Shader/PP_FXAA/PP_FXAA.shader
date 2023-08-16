@@ -1,4 +1,4 @@
-Shader "MyCustomShader/PP_FXAA"
+Shader "MyCustom_BuiltIn_Shader/PP_FXAA"
 {
 	Properties
 	{
