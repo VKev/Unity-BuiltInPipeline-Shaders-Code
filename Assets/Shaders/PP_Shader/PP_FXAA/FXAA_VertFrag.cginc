@@ -12,10 +12,7 @@
 #endif
 
 #ifndef FXAA_PC
-    //
-    // FXAA Quality 
-    // The high quality PC algorithm.
-    //
+
     #define FXAA_PC 0
 #endif
 
@@ -86,21 +83,8 @@
     #endif
 #endif
 
-/*============================================================================
-                         FXAA CONSOLE - TUNING KNOBS
-============================================================================*/
 #ifndef FXAA_CONSOLE__EDGE_SHARPNESS
-    //
-    // Consoles the sharpness of edges.
-    // 
-    // Due to the PS3 being ALU bound, 
-    // there are only two safe values here: 4 and 8.
-    // These options use the shaders ability to a free *|/ by 4|8.
-    //
-    // 8.0 is sharper
-    // 4.0 is softer
-    // 2.0 is really soft (good for vector graphics inputs)
-    //
+    
     #if 1 
         #define FXAA_CONSOLE__EDGE_SHARPNESS 8.0
     #endif
@@ -111,86 +95,36 @@
         #define FXAA_CONSOLE__EDGE_SHARPNESS 2.0
     #endif
 #endif
-/*--------------------------------------------------------------------------*/
+
 #ifndef FXAA_CONSOLE__EDGE_THRESHOLD
-    //
-    // The minimum amount of local contrast required to apply algorithm.
-    // The console setting has a different mapping than the quality setting.
-    //
-    // This only applies when FXAA_EARLY_EXIT is 1.
-    //
-    // Due to the PS3 being ALU bound, 
-    // there are only two safe values here: 0.25 and 0.125.
-    // These options use the shaders ability to a free *|/ by 4|8.
-    //
-    // 0.125 leaves less aliasing, but is softer
-    // 0.25 leaves more aliasing, and is sharper
-    //
+    
     #if 1
         #define FXAA_CONSOLE__EDGE_THRESHOLD 0.125
     #else
         #define FXAA_CONSOLE__EDGE_THRESHOLD 0.25
     #endif        
 #endif
-/*--------------------------------------------------------------------------*/
+
 #ifndef FXAA_CONSOLE__EDGE_THRESHOLD_MIN
-    //
-    // Trims the algorithm from processing darks.
-    // The console setting has a different mapping than the quality setting.
-    //
-    // This only applies when FXAA_EARLY_EXIT is 1.
-    //
-    // This does not apply to PS3.
-    // PS3 was simplified to avoid more shader instructions.
-    // 
+    
     #define FXAA_CONSOLE__EDGE_THRESHOLD_MIN 0.05
 #endif
 
-/*============================================================================
-                         FXAA QUALITY - TUNING KNOBS
-============================================================================*/
+
 #ifndef FXAA_QUALITY__EDGE_THRESHOLD
-    //
-    // The minimum amount of local contrast required to apply algorithm.
-    //
-    // 1/3 - too little
-    // 1/4 - low quality
-    // 1/6 - default
-    // 1/8 - high quality
-    // 1/16 - overkill
-    //
+    
     #define FXAA_QUALITY__EDGE_THRESHOLD (1.0/6.0)
 #endif
-/*--------------------------------------------------------------------------*/
+
 #ifndef FXAA_QUALITY__EDGE_THRESHOLD_MIN
-    //
-    // Trims the algorithm from processing darks.
-    //
-    // 1/32 - visible limit
-    // 1/16 - high quality
-    // 1/12 - upper limit (default, the start of visible unfiltered edges)
-    //
+   
     #define FXAA_QUALITY__EDGE_THRESHOLD_MIN (1.0/12.0)
 #endif
-/*--------------------------------------------------------------------------*/
+
 #ifndef FXAA_QUALITY__SUBPIX
-    //
-    // Choose the amount of sub-pixel aliasing removal.
-    //
-    // 1   - upper limit (softer)
-    // 3/4 - default amount of filtering
-    // 1/2 - lower limit (sharper, less sub-pixel aliasing removal)
-    //
-    //
+    
     #define FXAA_QUALITY__SUBPIX (3.0/4.0)
 #endif
-
-
-/*============================================================================
-
-                                 API
-                                 
-============================================================================*/
 
 float4 luma( float4 color )
 {
@@ -212,32 +146,16 @@ float4 luma( float4 color )
 #define FxaaTexOff(t, p, o, r) luma( tex2Dlod(t, float4(p + (o * r), 0, 0)) )
 
 
-/*============================================================================
-
-                      FXAA3 CONSOLE - PC PIXEL SHADER
-
-------------------------------------------------------------------------------
-Using a modified version of the PS3 version here to best target old hardware.
-============================================================================*/
-
-/*--------------------------------------------------------------------------*/
 half4 FxaaPixelShader_Speed(
-    // {xy} = center of pixel
+
     float2 pos,
-    // {xy__} = upper left of pixel
-    // {__zw} = lower right of pixel
+    
     float4 posPos,
-    // {rgb_} = color in linear or perceptual color space
-    // {___a} = alpha output is junk value
+    
     FxaaTex tex,
-    // This must be from a constant/uniform.
-    // {xy} = rcpFrame not used on PC version of FXAA Console
+
     float2 rcpFrame,
-    // This must be from a constant/uniform.
-    // {x___} = 2.0/screenWidthInPixels
-    // {_y__} = 2.0/screenHeightInPixels
-    // {__z_} = 0.5/screenWidthInPixels
-    // {___w} = 0.5/screenHeightInPixels
+
     float4 rcpFrameOpt 
 ) {
 
@@ -319,26 +237,16 @@ half4 FxaaPixelShader_Speed(
 
 
 
-
-/*============================================================================
-
-                              FXAA3 QUALITY - PC
-
-============================================================================*/
-
 float4 FxaaPixelShader_Quality(
-    // {xy} = center of pixel
+
     float2 pos,
-    // {xyzw} = not used on FXAA3 Quality
+
     float4 posPos,       
-    // {rgb_} = color in linear or perceptual color space
-    // {___a} = luma in perceptual color space (not linear) 
-    FxaaTex tex,
-    // This must be from a constant/uniform.
-    // {x_} = 1.0/screenWidthInPixels
-    // {_y} = 1.0/screenHeightInPixels
+
+    FxaaTex tex, 
+
     float2 rcpFrame,
-    // {xyzw} = not used on FXAA3 Quality
+    
     float4 rcpFrameOpt 
 ) {   
 
