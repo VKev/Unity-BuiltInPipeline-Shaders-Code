@@ -60,9 +60,9 @@ Material:
     - _OutlineBlurStandardDeviation: 0.98
     - _OutlineThreshold: 0.08
     - _OutlineWidth: 1
-    - _Scale: 1
+    - _Scale: 1.16
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 0.3773585, g: 0.11178354, b: 0.11178354, a: 1}
+    - _OutlineColor: {r: 0.71132076, g: 1, b: 0.8718057, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
