@@ -6,4 +6,4 @@ Outline Shader:
 ![Image](/ShowCase/Outline.png)
 
 Toon Shader:
-[![Watch the video](https://www.youtube.com/watch?v=SVPulivGYuU)
+![Image](/ShowCase/Toon.gif)
