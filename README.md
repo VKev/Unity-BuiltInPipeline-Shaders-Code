@@ -4,10 +4,10 @@ Unity 2023.2.0b1
 
 
 
-Toon Shader showcase:
+<p>Toon Shader showcase:</p>
+<img src="/ShowCase/Toon.png" alt="drawing" width="400"/>
 
-![Image](/ShowCase/Toon.png)
+<p>Outline Shader showcase:</p>
+<img src="/ShowCase/Outline1.png" alt="drawing" width="400"/>
+<img src="/ShowCase/Outline2.png" alt="drawing" width="400"/>
 
-Outline Shader showcase:
-![Image](/ShowCase/Outline1.png)
-![Image](/ShowCase/Outline2.png)
