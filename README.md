@@ -9,4 +9,4 @@ Toon Shader showcase:
 
 Outline Shader showcase:
 ![Image](/ShowCase/Outline1.png)
-![Image](/ShowCase/Outline1.png)
+![Image](/ShowCase/Outline2.png)
