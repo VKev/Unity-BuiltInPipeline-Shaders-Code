@@ -28,6 +28,9 @@
             float _Gloss; 
             float _RimSize,_RimThreshold,_RimBlur;
             float _DeffuseBlur,_SpecularBlur;
+            float _MainLightReceiveLevel;
+            float _AdditionalLightReceiveLevel;
+            float _SpecularIntensity;
             v2f vert (appdata v)
             {
                 v2f o;
@@ -59,10 +62,10 @@
                 deffuseLight = smoothstep(0,_DeffuseBlur, deffuseLight );
                 
                 #ifdef IS_IN_BASE_PASS
-                    attenuation = SHADOW_ATTENUATION(i);//get shadow attenuation for DIRECTIONAL light
+                    attenuation = SHADOW_ATTENUATION(i)*_MainLightReceiveLevel;//get shadow attenuation for DIRECTIONAL light
                     
                 #else
-                    attenuation = LIGHT_ATTENUATION(i);//get shadow attenuation for all light except DIRECTIONAL
+                    attenuation = LIGHT_ATTENUATION(i)*_AdditionalLightReceiveLevel;//get shadow attenuation for all light except DIRECTIONAL
                 #endif
                 
                 
@@ -76,7 +79,7 @@
                 float3 CelShading = _Color*(
                                     deffuseLight*mainTex*attenuation
                                     + _AmbientLight
-                                    + specularLight*_Gloss*attenuation 
+                                    + specularLight*_Gloss*attenuation*_SpecularIntensity 
                                     + rim*attenuation                   ); 
 
                return float4(CelShading,1);

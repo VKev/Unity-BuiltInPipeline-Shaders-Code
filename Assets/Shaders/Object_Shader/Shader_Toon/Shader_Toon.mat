@@ -61,6 +61,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AdditionalLightReceiveLevel: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DeffuseBlur: 0.01
@@ -72,6 +73,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _LightBlur: 0.0051
+    - _MainLightReceiveLevel: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1

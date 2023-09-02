@@ -8,9 +8,13 @@ Shader "MyCustom_BuiltIn_Shader/ToonShader"
         _RimBlur("Rim Blur", Range(0,0.1))= 0.01
         _RimThreshold("Rim Threshold", Range(0.01,10))= 2
         _SpecularBlur("Specular Blur",Range(0.005,0.1)) =  0.01
+        _SpecularIntensity("Specular intensity", float) = 1
         _DeffuseBlur("Deffuse Blur",Range(0,0.1)) =  0.01
         _AmbientLight("Ambient Light", COLOR) = (0.3,0.3,0.3,1)
         _Gloss("Gloss", float) = 0.8
+        _MainLightReceiveLevel("Light receive level", float)= 1
+        _AdditionalLightReceiveLevel("Light receive level", float)= 1
+        
     }
     SubShader
     {
