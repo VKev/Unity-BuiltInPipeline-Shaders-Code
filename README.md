@@ -1,4 +1,5 @@
 ## Shader project (Built in Pipeline only)
+Using shader code, Non-shader graph
 
 Unity 2023.2.0b1
 
